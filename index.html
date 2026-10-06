@@ -1,12 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>나의 첫 웹 페이지</title>
+  <style>
+    /* 색상과 글꼴은 여기서 한 번에 바꿀 수 있어요 */
+    :root {
+      --bg: #f5f8fb;
+      --ink: #14213d;
+      --muted: #5b6b82;
+      --accent: #1f6feb;
+      --card: #ffffff;
+      --line: #dbe4ef;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* 상단 메뉴 */
+    header { background: var(--card); border-bottom: 1px solid var(--line); }
+    header .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .logo { font-weight: 700; font-size: 1.2rem; }
+    nav { display: flex; gap: 20px; }
+    nav a { color: var(--muted); }
+    nav a:hover { color: var(--accent); }
+
+    /* 첫 화면 */
+    .hero { padding: 96px 0 80px; }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.25; max-width: 14em; }
+    .hero p { margin: 20px 0 32px; color: var(--muted); max-width: 32em; font-size: 1.1rem; }
+    .btn {
+      display: inline-block; padding: 12px 24px; border: 0; border-radius: 8px;
+      background: var(--accent); color: #fff; font-size: 1rem; font-family: inherit; cursor: pointer;
+    }
+    .btn:hover { background: #1858bd; }
+
+    /* 소개 카드 */
+    section { padding: 64px 0; }
+    section h2 { font-size: 1.6rem; margin-bottom: 24px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .card h3 { margin-bottom: 8px; font-size: 1.1rem; }
+    .card p { color: var(--muted); }
+
+    /* 문의 폼 */
+    form { display: grid; gap: 14px; max-width: 480px; }
+    label { font-weight: 500; }
+    input, textarea {
+      width: 100%; padding: 10px 12px; margin-top: 4px;
+      border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--card);
+    }
+    #result { color: var(--accent); min-height: 1.7em; }
+
+    footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); font-size: 0.9rem; }
+
+    @media (max-width: 520px) {
+      nav { gap: 12px; font-size: 0.95rem; }
+    }
+  </style>
 </head>
 <body>
-    <h1>파일로 생성된 index.html입니다!</h1>
-    <img src="./img.jpg" alt="고양이">
+
+  <header>
+    <div class="wrap">
+      <a href="#" class="logo">My Page</a>
+      <nav>
+        <a href="#about">소개</a>
+        <a href="#contact">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <h1>나만의 웹 페이지를 시작해 보세요</h1>
+      <p>HTML로 구조를 만들고, CSS로 꾸미고, JavaScript로 동작을 더하는 가장 기본적인 화면입니다.</p>
+      <a href="#about" class="btn">자세히 보기</a>
+    </div>
+
+    <section id="about">
+      <div class="wrap">
+        <h2>소개</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>HTML</h3>
+            <p>제목, 문단, 버튼처럼 화면의 뼈대를 만듭니다.</p>
+          </div>
+          <div class="card">
+            <h3>CSS</h3>
+            <p>색, 글꼴, 간격으로 화면을 보기 좋게 꾸밉니다.</p>
+          </div>
+          <div class="card">
+            <h3>JavaScript</h3>
+            <p>버튼을 눌렀을 때 일어나는 동작을 만듭니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <h2>문의하기</h2>
+        <form id="contact-form">
+          <label>이름
+            <input type="text" id="name" required>
+          </label>
+          <label>메시지
+            <textarea id="message" rows="4" required></textarea>
+          </label>
+          <button type="submit" class="btn">보내기</button>
+          <p id="result" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 My Page</div>
+  </footer>
+
+  <script>
+    // 폼을 보내면 페이지가 새로고침되지 않고 안내 문구만 표시합니다.
+    document.getElementById("contact-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      document.getElementById("result").textContent = name + "님, 메시지가 접수되었습니다.";
+      this.reset();
+    });
+  </script>
+
 </body>
 </html>
